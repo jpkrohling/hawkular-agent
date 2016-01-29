@@ -58,7 +58,6 @@ public class MonitorServiceConfiguration {
         private final String password;
         private final String securityKey; // if !null, use key/secret rather than username/password to authenticate
         private final String securitySecret;
-        private final String tenantId;
         private final String feedId;
         private final String url;
         private final boolean useSSL;
@@ -95,7 +94,6 @@ public class MonitorServiceConfiguration {
             this.password = password;
             this.securityKey = securityKey;
             this.securitySecret = securitySecret;
-            this.tenantId = tenantId;
             this.feedId = (FEED_ID_AUTOGENERATE.equalsIgnoreCase(feedId)) ? null : feedId;
             this.url = url;
             this.useSSL = useSSL;
@@ -127,10 +125,6 @@ public class MonitorServiceConfiguration {
 
         public String getSecuritySecret() {
             return securitySecret;
-        }
-
-        public String getTenantId() {
-            return tenantId;
         }
 
         /**
