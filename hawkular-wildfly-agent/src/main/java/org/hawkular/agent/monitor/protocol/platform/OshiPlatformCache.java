@@ -50,19 +50,6 @@ public class OshiPlatformCache {
     private final String machineId;
 
     /**
-     * Constructs a new instance for a given feed ID. Note that a machine-id will be acquired using the default
-     * algorithm. If this is not the intention, use the constructor with an explicit machine-id.
-     *
-     * @param feedId    the feed ID
-     */
-    public OshiPlatformCache(String feedId) {
-        sysInfo = new SystemInfo();
-        sysInfoCache = new HashMap<>(5);
-        this.feedId = feedId;
-        this.machineId = Util.getSystemId();
-    }
-
-    /**
      * If a machine-id is known, this constructor should be used. Note that "null" is considered a "known" value, so,
      * null will be assumed if given. If the machine-id is not known, use constructors without a machine-id parameter.
      *
@@ -75,7 +62,7 @@ public class OshiPlatformCache {
         sysInfo = new SystemInfo();
         sysInfoCache = new HashMap<>(5);
         this.feedId = feedId;
-        this.machineId = machineId;
+        this.machineId = (machineId != null) ? machineId : Util.getSystemId();
     }
 
     /**
@@ -488,6 +475,9 @@ public class OshiPlatformCache {
         return results;
     }
 
+    /**
+     * @return the unique machine ID for this platform if it is known. Otherwise, null is returned.
+     */
     public String getMachineId() {
         return machineId;
     }
