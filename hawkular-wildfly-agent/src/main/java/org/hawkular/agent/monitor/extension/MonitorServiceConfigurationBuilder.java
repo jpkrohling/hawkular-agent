@@ -447,7 +447,7 @@ public class MonitorServiceConfigurationBuilder {
 
         ModelNode platformValueNode = asPropertyList.get(0).getValue();
         boolean typeSetsEnabled = getBoolean(platformValueNode, context, PlatformAttributes.ENABLED);
-        if (typeSetsEnabled == false) {
+        if (!typeSetsEnabled) {
             log.debugf("Platform monitoring is disabled");
             return TypeSets.empty();
         }
@@ -463,6 +463,17 @@ public class MonitorServiceConfigurationBuilder {
                 .location(new PlatformNodeLocation(
                         PlatformPath.builder().any(PlatformResourceType.OPERATING_SYSTEM).build()))
                 .resourceNameTemplate("%s");
+
+        ResourceConfigurationPropertyType<PlatformNodeLocation> machineIdConfigType =
+                new ResourceConfigurationPropertyType<> (
+                        ID.NULL_ID,
+                        Constants.MACHINE_ID,
+                        new AttributeLocation<>(
+                                new PlatformNodeLocation(PlatformPath.empty()), Constants.MACHINE_ID.getNameString()
+                        )
+                );
+        rootTypeBldr.resourceConfigurationPropertyType(machineIdConfigType);
+
         populateMetricAndAvailTypesForResourceType(rootTypeBldr, typeSetsBuilder);
         ResourceType<PlatformNodeLocation> rootType = rootTypeBldr.build();
 
@@ -488,7 +499,7 @@ public class MonitorServiceConfigurationBuilder {
 
                     MetricType<PlatformNodeLocation> usableSpace = new MetricType<PlatformNodeLocation>(null,
                             Constants.FILE_STORE_USABLE_SPACE,
-                            new AttributeLocation<PlatformNodeLocation>(
+                            new AttributeLocation<>(
                                     new PlatformNodeLocation(PlatformPath.empty()),
                                     Constants.FILE_STORE_USABLE_SPACE.getNameString()),
                             interval,
@@ -497,7 +508,7 @@ public class MonitorServiceConfigurationBuilder {
 
                     MetricType<PlatformNodeLocation> totalSpace = new MetricType<PlatformNodeLocation>(null,
                             Constants.FILE_STORE_TOTAL_SPACE,
-                            new AttributeLocation<PlatformNodeLocation>(
+                            new AttributeLocation<>(
                                     new PlatformNodeLocation(PlatformPath.empty()),
                                     Constants.FILE_STORE_TOTAL_SPACE.getNameString()),
                             interval,
